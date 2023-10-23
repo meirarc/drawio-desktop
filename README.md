@@ -12,7 +12,7 @@ Run test on the Codespace remotely run on the local VS Code
     docker run -it -w /data -v $(pwd):/data rlespinasse/drawio-desktop-headless -x -f svg -o /data/src/tests/test_data/test_diagram.svg /data/src/tests/test_data/test_diagram.drawio
 
 
-## Solution to be tested
+## Updated Solution
 
 Dockerfile
 
@@ -29,12 +29,16 @@ Dockerfile
 
 ## Build
 
-    docker build -t drawio-desktop .
+    make build
+
+## Autoupdate Drawio-desktop version
+
+    make autoupdate-drawio-desktop
 
 ## Push
 
-    docker push drawio-desktop
+    make push
 
 ## Run
 
-    docker run -it -w /data -v $(pwd):/data drawio-desktop -x -f svg -o /data/src/tests/test_data/test_diagram.svg /data/src/tests/test_data/test_diagram.drawio
+    docker run -it -w /data -v $(pwd):/data meirarc/drawio-desktop -x -f svg -o /data/src/tests/test_data/test_diagram.svg /data/src/tests/test_data/test_diagram.drawio
