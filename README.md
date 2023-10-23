@@ -1,44 +1,38 @@
 # drawio-xml-svg
 
-## Pre solution to test the Drawio File Conversion
-Transform Drawio XML file to SGV format
+Dockerized version of [Draw.io Desktop](https://github.com/jgraph/drawio-desktop), enabling command-line operations for creating, checking, or exporting diagrams in environments using a graphical user interface (GUI), such as Continuous Integration (CI) tools.
 
-Run test directo on the Codespace environment
+## What It Does
 
-    docker run -it -v /workspaces/drawio-xml-svg:/data rlespinasse/drawio-desktop-headless -x -f svg -o /data/src/tests/test_data/test_diagram.svg /data/src/tests/test_data/test_diagram.drawio
+The Draw.io Desktop application typically requires a GUI environment to operate. However, there are use cases, like automation in CI/CD pipelines, where a GUI is not available. This Docker image encapsulates the Draw.io Desktop application, allowing it to run a command-line client for diagram operations.
 
-Run test on the Codespace remotely run on the local VS Code
+## Running
 
-    docker run -it -w /data -v $(pwd):/data rlespinasse/drawio-desktop-headless -x -f svg -o /data/src/tests/test_data/test_diagram.svg /data/src/tests/test_data/test_diagram.drawio
+To use this Docker image, you can pull it from Docker Hub and run it with the following command:
 
+    docker run -it -v $(pwd):/data meirarc/drawio-desktop -x -f svg -o /data/output.svg /data/input.drawio
 
-## Updated Solution
+This command mounts the current directory to /data inside the container, then runs the Draw.io Desktop application to convert an input Draw.io diagram file (input.drawio) to an SVG file (output.svg).
 
-Dockerfile
+For test purpose, you can run the command below: 
 
-    FROM ubuntu:latest
+    make run
 
-    # Install drawio-desktop and other necessary packages
-    RUN apt-get update && \
-        apt-get install -y wget && \
-        wget https://github.com/jgraph/drawio-desktop/releases/download/v22.0.3/drawio-amd64-22.0.3.deb && \
-        apt-get install -y ./drawio-amd64-22.0.3.deb
-    # Define the entrypoint
-    ENTRYPOINT ["/opt/drawio/drawio"]
+## Building
 
+If you wish to build the Docker image yourself, clone the repository and use the provided Makefile:
 
-## Build
-
+    git clone https://github.com/meirarc/drawio-desktop-headless.git
+    cd drawio-desktop-headless
     make build
 
-## Autoupdate Drawio-desktop version
-
-    make autoupdate-drawio-desktop
-
-## Push
+## Push 
+If you wish to push a new version of the Dockerfile, run the folowing command:
 
     make push
 
-## Run
+## Updating Draw.io Desktop Version
+To update the version of Draw.io Desktop used in the Docker image, you can use the autoupdate-drawio-desktop target in the Makefile:
 
-    docker run -it -w /data -v $(pwd):/data meirarc/drawio-desktop -x -f svg -o /data/src/tests/test_data/test_diagram.svg /data/src/tests/test_data/test_diagram.drawio
+    make autoupdate-drawio-desktop
+
